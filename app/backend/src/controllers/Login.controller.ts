@@ -1,10 +1,17 @@
-export default class LoginController {
-  private _name: string;
-  constructor(name = 'login') {
-    this._name = name;
-  }
+import { Request, Response } from 'express';
 
-  verifyLogin() {
-    return this._name;
-  }
+// import { generateToken } from '../util/JWT';
+import LoginService from '../services/Login.service';
+
+export default class LoginController {
+  constructor(private loginService = new LoginService()) {}
+
+  verifyLogin = async (req: Request, res: Response) => {
+    const login = req.body;
+    // const { message } = await this.loginService.verifyLogin(req.body);
+    const { type, message } = await this.loginService.verifyLogin(login);
+    // const token = new generateToken(message);
+    // return res.status(201).json({ hashPassword });
+    return res.status(201).json({ type, message });
+  };
 }
