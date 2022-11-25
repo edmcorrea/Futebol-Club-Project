@@ -7,11 +7,11 @@ import Users from '../database/models/Users';
 export default class LoginService {
   verifyLogin = async (email: string, password: string) => {
     const user = await Users.findOne({ where: { email } });
-    if (!user) return { type: 400, message: 'Incorrect email or password' };
+    if (!user) return { type: 401, message: 'Incorrect email or password' };
 
     const validatePass = await bcrypt.compare(password, user.password);
 
-    if (!validatePass) return { type: 400, message: 'Incorrect email or password' };
+    if (!validatePass) return { type: 401, message: 'Incorrect email or password' };
 
     const jwt = new JWT();
     const token = jwt.generateToken(user);
