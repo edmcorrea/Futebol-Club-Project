@@ -1,4 +1,5 @@
 import * as jwt from 'jsonwebtoken';
+import { JwtPayload } from 'jsonwebtoken';
 import * as dotenv from 'dotenv';
 
 import { IUser } from '../interfaces/interfaces';
@@ -14,11 +15,34 @@ export default class JWT {
       algorithm: 'HS256',
     };
     const token = jwt.sign(
-      { user },
+      user,
       TOKEN_SECRET_KEY,
       jwtConfig as object,
     );
     return token;
+  };
+
+  verifyToken = (token: string): JwtPayload => {
+    // try {
+    const decodedToken = jwt.verify(token, TOKEN_SECRET_KEY);
+    return decodedToken as JwtPayload;
+    // } catch (_error) {
+    //   return { type: 'EXPIRED_INVALID', message: 'Invalid token' };
+    // }
+  };
+
+  decodedToken = (token: string) => {
+    try {
+      const decoded = jwt.verify(token, TOKEN_SECRET_KEY);
+      return decoded;
+    } catch (_error) {
+      return { type: 'EXPIRED_INVALID', message: 'Expired or invalid token' };
+    }
+  };
+
+  removePassword = (user: IUser) => {
+    const { password: _, ...userWithoutPassword } = user;
+    return userWithoutPassword;
   };
 }
 

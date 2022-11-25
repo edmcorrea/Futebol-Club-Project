@@ -1,22 +1,10 @@
 import { NextFunction, Request, Response } from 'express';
+import JWT from '../util/JWT';
 import { schemaLogin } from './schemas';
 
-// export default function validateLogin(req: Request, res: Response, next: NextFunction) {
-//   const { error } = schemaLogin.validate(req.body);
-
-//   if (error) {
-//     return res.status(400).json({ message: 'All fields must be filled',
-//     });
-//   }
-//   next();
-// }
-
 export default class UserMidlleware {
-  // constructor(private req: Request, private res: Response, private next: NextFunction) {
-  //   this.req = req;
-  //   this.res = res;
-  //   this.next = next;
-  // }
+  constructor(public jwt = new JWT()) {}
+
   public validateLogin = (req: Request, res: Response, next: NextFunction) => {
     const { error } = schemaLogin.validate(req.body);
     if (error) {
@@ -24,5 +12,19 @@ export default class UserMidlleware {
       });
     }
     next();
+  };
+
+  public validateToken = (req: Request, res: Response, next: NextFunction) => {
+    const { authorization } = req.headers;
+
+    if (!authorization) return res.status(401).json({ message: 'authorization don\'t exist' });
+
+    try {
+      const decoded = this.jwt.verifyToken(authorization);
+      req.body.role = decoded.role;
+      next();
+    } catch (_error) {
+      return res.status(401).json({ message: 'token not found' });
+    }
   };
 }

@@ -9,6 +9,6 @@ const userMidlleware = new UserMidlleware();
 const loginController = new LoginController();
 
 routers.post('/', userMidlleware.validateLogin, loginController.verifyLogin);
-// routers.post('/', loginController.verifyLogin);
+routers.get('/validate', userMidlleware.validateToken, loginController.getRole);
 
 export default routers;
