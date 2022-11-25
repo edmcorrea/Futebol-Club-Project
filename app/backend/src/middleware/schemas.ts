@@ -1,4 +1,4 @@
-import Joi = require('joi');
+import * as Joi from 'joi';
 
 const emailSchema = Joi.string().email().required();
 const passSchema = Joi.string().min(8).required();

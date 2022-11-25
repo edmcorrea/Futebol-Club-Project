@@ -1,15 +1,28 @@
-// import jwt from 'jsonwebtoken';
-// import dotenv from 'dotenv';
+import * as jwt from 'jsonwebtoken';
+import * as dotenv from 'dotenv';
 
-// dotenv.config();
+import { IUser } from '../interfaces/interfaces';
 
-// class generateToken {
-//   constructor({}) {}
-// }
+dotenv.config();
 
-// const TOKEN_SECRET_KEY = process.env.JWT_SECRET || 'TFC_Project';
+const TOKEN_SECRET_KEY = process.env.JWT_SECRET || 'TFC_Project';
 
-// export default function generateToken(id: number | undefined) {
+export default class JWT {
+  generateToken = (user: IUser) => {
+    const jwtConfig = {
+      expiresIn: '7d',
+      algorithm: 'HS256',
+    };
+    const token = jwt.sign(
+      { user },
+      TOKEN_SECRET_KEY,
+      jwtConfig as object,
+    );
+    return token;
+  };
+}
+
+// function generateToken(id: number | undefined) {
 //   const jwtConfig = {
 //     expiresIn: '7d',
 //     algorithm: 'HS256',
@@ -24,4 +37,4 @@
 
 // export {
 //   generateToken,
-// }
+// };

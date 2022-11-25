@@ -7,11 +7,12 @@ export default class LoginController {
   constructor(private loginService = new LoginService()) {}
 
   verifyLogin = async (req: Request, res: Response) => {
-    const login = req.body;
+    const { email, password } = req.body;
     // const { message } = await this.loginService.verifyLogin(req.body);
-    const { type, message } = await this.loginService.verifyLogin(login);
+    const { type, message } = await this.loginService.verifyLogin(email, password);
+    if (type) return res.status(type).json({ message });
     // const token = new generateToken(message);
     // return res.status(201).json({ hashPassword });
-    return res.status(201).json({ type, message });
+    return res.status(200).json({ token: message });
   };
 }
