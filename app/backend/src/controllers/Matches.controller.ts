@@ -16,4 +16,21 @@ export default class MatchesController {
     }
     return res.status(200).json(getAll);
   };
+
+  insertMatch = async (req: Request, res: Response) => {
+    const insert = await this.matchesService.insertMatch(req.body);
+
+    const findById = await this.matchesService.findMatch(insert.id);
+    return res.status(201).json(findById);
+  };
+
+  updateMatch = async (req: Request, res: Response) => {
+    const { id } = req.params;
+    console.log(id);
+
+    // const insert = await this.matchesService.insertMatch(req.body);
+
+    // const findById = await this.matchesService.findMatch(insert.id);
+    return res.status(201).json(id);
+  };
 }

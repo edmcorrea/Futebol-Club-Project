@@ -11,4 +11,11 @@ interface IUser {
   password?: string;
 }
 
-export { ILogin, IUser };
+interface IMatch {
+  homeTeam: number;
+  awayTeam: number;
+  homeTeamGoals: number;
+  awayTeamGoals: number;
+}
+
+export { ILogin, IUser, IMatch };
