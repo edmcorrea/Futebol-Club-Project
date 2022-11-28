@@ -17,14 +17,16 @@ export default class MatchesService {
       awayTeamGoals,
       inProgress: true,
     });
-    // console.log(insert);
-
     return dataValues;
   };
 
   findMatch = async (id: number) => {
     const findById = await Matches.findByPk(id);
-    console.log(findById);
     return findById;
+  };
+
+  updateMatch = async (id: string) => {
+    const updated = await Matches.update({ inProgress: false }, { where: { id } });
+    return updated;
   };
 }

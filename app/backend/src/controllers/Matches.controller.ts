@@ -26,11 +26,10 @@ export default class MatchesController {
 
   updateMatch = async (req: Request, res: Response) => {
     const { id } = req.params;
-    console.log(id);
 
-    // const insert = await this.matchesService.insertMatch(req.body);
+    await this.matchesService.updateMatch(id);
 
     // const findById = await this.matchesService.findMatch(insert.id);
-    return res.status(201).json(id);
+    return res.status(200).json({ message: 'Finished' });
   };
 }
