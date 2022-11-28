@@ -13,7 +13,6 @@ export default class LoginService {
 
     const jwt = new JWT();
     const userWithoutPassword = jwt.removePassword(user.dataValues);
-    console.log('userWithoutPassword', userWithoutPassword);
 
     const token = jwt.generateToken(userWithoutPassword);
 

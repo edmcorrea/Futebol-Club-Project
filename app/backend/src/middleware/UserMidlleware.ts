@@ -21,10 +21,10 @@ export default class UserMidlleware {
 
     try {
       const decoded = this.jwt.verifyToken(authorization);
-      req.body.role = decoded.role;
+      req.body.role = decoded.message.role;
       next();
     } catch (_error) {
-      return res.status(401).json({ message: 'token not found' });
+      return res.status(401).json({ message: 'token CRASH' });
     }
   };
 }
