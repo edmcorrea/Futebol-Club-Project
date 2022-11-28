@@ -17,7 +17,7 @@ export default class LoginController {
 
   getRole = (req: Request, res: Response) => {
     try {
-      const { role } = req.body;
+      const { role } = req.body; // Informação armazenada no middleware 'UserMiddleware', linha 24;
       return res.status(200).json({ role });
     } catch (error) {
       return res.status(500).json('Erro interno');
