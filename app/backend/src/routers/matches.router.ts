@@ -8,8 +8,8 @@ const matchesController = new MatchesController();
 
 const routers = Router();
 
-routers.get('/', matchesController.getMatches);
 routers.post('/', matchMiddleware.sameTeams, matchesController.insertMatch);
+routers.get('/', matchesController.getMatches);
 routers.patch('/:id/finish', matchesController.updateStatusMatch);
 routers.patch('/:id', matchesController.updateScoreMatch);
 

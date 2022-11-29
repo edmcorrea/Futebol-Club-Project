@@ -1,6 +1,6 @@
-import LoginService from '../services/Login.service';
-import TeamsService from '../services/Teams.service';
-import JWT from './JWT';
+import LoginService from '../Login.service';
+import TeamsService from '../Teams.service';
+import JWT from '../../util/JWT';
 
 export default class Validates {
   constructor(
@@ -18,9 +18,11 @@ export default class Validates {
     return { type: null, message: null };
   };
 
-  // validateToken = async (token: string) => {
-  //   const { email } = this.jwt.verifyToken(token);
-  //   const findById = await this.loginService.verifyUser(email);
-  //   return findById;
-  // };
+  validateToken = async (token: string) => {
+    const { email } = this.jwt.verifyToken(token);
+    console.log('email', email);
+
+    const findById = await this.loginService.verifyUser(email);
+    return findById;
+  };
 }
