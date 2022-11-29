@@ -23,4 +23,13 @@ interface IScoreMatch {
   awayTeamGoals: number;
 }
 
-export { ILogin, IUser, IMatch, IScoreMatch };
+interface ILeaderBoard {
+  timeId: number;
+  vit: number;
+  emp: number;
+  derr: number;
+  gols: number;
+  golsSofr: number;
+}
+
+export { ILogin, IUser, IMatch, IScoreMatch, ILeaderBoard };

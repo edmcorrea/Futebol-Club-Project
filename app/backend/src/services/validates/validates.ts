@@ -18,11 +18,11 @@ export default class Validates {
     return { type: null, message: null };
   };
 
-  validateToken = async (token: string) => {
-    const { email } = this.jwt.verifyToken(token);
-    console.log('email', email);
+  // validateToken = async (token: string) => {
+  //   const { email } = this.jwt.verifyToken(token);
+  //   console.log('email', email);
 
-    const findById = await this.loginService.verifyUser(email);
-    return findById;
-  };
+  //   const findById = await this.loginService.verifyUser(email);
+  //   return findById;
+  // };
 }

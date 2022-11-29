@@ -17,14 +17,14 @@ export default class UserMidlleware {
   public validateToken = (req: Request, res: Response, next: NextFunction) => {
     const { authorization } = req.headers;
 
-    if (!authorization) return res.status(401).json({ message: 'authorization don\'t exist' });
+    if (!authorization) return res.status(401).json({ message: 'Token must be a valid token' });
 
     try {
       const decoded = this.jwt.verifyToken(authorization);
       req.body.role = decoded.role;
       next();
     } catch (_error) {
-      return res.status(401).json({ message: 'token CRASH' });
+      return res.status(401).json({ message: 'Token must be a valid token' });
     }
   };
 }

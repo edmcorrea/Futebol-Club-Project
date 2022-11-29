@@ -1,8 +1,10 @@
 import { Request, Response } from 'express';
+import LeaderBoardService from '../services/Leaderboard.service';
 
 export default class LeaderBoardController {
-  filterHomeRankings = (req: Request, res: Response) => {
-    console.log(req.body);
-    return res.status(200).json('oi');
+  constructor(private leaderBoardService = new LeaderBoardService()) {}
+  filterHomeRankings = async (req: Request, res: Response) => {
+    const result = await this.leaderBoardService.statusHomeRankings();
+    return res.status(200).json(result);
   };
 }

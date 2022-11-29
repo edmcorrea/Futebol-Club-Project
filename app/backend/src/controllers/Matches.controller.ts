@@ -24,12 +24,12 @@ export default class MatchesController {
 
   insertMatch = async (req: Request, res: Response) => {
     const { homeTeam, awayTeam } = req.body;
-    const { authorization } = req.headers;
+    // const { authorization } = req.headers;
 
-    // console.log(authorization);
-    const validateDecoded = await this.validates.validateToken(authorization as string);
-    // console.log('validateDecoded', !(!validateDecoded));
-    if (!validateDecoded) return res.status(401).json({ message: 'Token must be a valid token' });
+    // // console.log(authorization);
+    // const validateDecoded = await this.validates.validateToken(authorization as string);
+    // // console.log('validateDecoded', !(!validateDecoded));
+    // if (!validateDecoded) return res.status(401).json({ message: 'Token must be a valid token' });
 
     const validateTeams = await this.validates.validateTeam(homeTeam, awayTeam);
     if (validateTeams.type) {
