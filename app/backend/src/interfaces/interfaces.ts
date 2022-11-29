@@ -18,4 +18,9 @@ interface IMatch {
   awayTeamGoals: number;
 }
 
-export { ILogin, IUser, IMatch };
+interface IScoreMatch {
+  homeTeamGoals: number;
+  awayTeamGoals: number;
+}
+
+export { ILogin, IUser, IMatch, IScoreMatch };

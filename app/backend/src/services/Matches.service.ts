@@ -1,4 +1,4 @@
-import { IMatch } from '../interfaces/interfaces';
+import { IMatch, IScoreMatch } from '../interfaces/interfaces';
 import Matches from '../database/models/Matches';
 
 export default class MatchesService {
@@ -25,8 +25,13 @@ export default class MatchesService {
     return findById;
   };
 
-  updateMatch = async (id: string) => {
+  updateStatusMatch = async (id: string) => {
     const updated = await Matches.update({ inProgress: false }, { where: { id } });
+    return updated;
+  };
+
+  updateScoreMatch = async (id: string, { homeTeamGoals, awayTeamGoals }: IScoreMatch) => {
+    const updated = await Matches.update({ homeTeamGoals, awayTeamGoals }, { where: { id } });
     return updated;
   };
 }
