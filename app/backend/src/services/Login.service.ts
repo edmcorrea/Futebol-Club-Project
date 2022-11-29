@@ -18,4 +18,9 @@ export default class LoginService {
 
     return { type: null, message: token };
   };
+
+  // verifyUser = async (email: string) => {
+  //   const user = await Users.findOne({ where: { email } });
+  //   return user;
+  // };
 }

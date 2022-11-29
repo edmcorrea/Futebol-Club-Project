@@ -31,34 +31,8 @@ export default class JWT {
     // }
   };
 
-  decodedToken = (token: string) => {
-    try {
-      const decoded = jwt.verify(token, TOKEN_SECRET_KEY);
-      return decoded;
-    } catch (_error) {
-      return { type: 'EXPIRED_INVALID', message: 'Expired or invalid token' };
-    }
-  };
-
   removePassword = (user: IUser) => {
     const { password: _, ...userWithoutPassword } = user;
     return userWithoutPassword;
   };
 }
-
-// function generateToken(id: number | undefined) {
-//   const jwtConfig = {
-//     expiresIn: '7d',
-//     algorithm: 'HS256',
-//   };
-//   const token = jwt.sign(
-//     { id },
-//     TOKEN_SECRET_KEY,
-//     jwtConfig as object,
-//   );
-//   return token;
-// }
-
-// export {
-//   generateToken,
-// };
