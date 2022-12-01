@@ -12,6 +12,18 @@ export default class LeaderBoardController {
     private buildTeamSort = new BuildTeamSort(),
   ) {}
 
+  filterRankings = async (req: Request, res: Response) => {
+    const allNo = await this.leaderBoardService.findAllNoProgress();
+
+    const filterHome = await this.leaderBoardService.statusHomeRanking(allNo);
+
+    const buildTable = await this.buildTable(filterHome);
+
+    const buildTableSort = this.buildTeamSort.buildSort(buildTable);
+
+    return res.status(200).json(buildTableSort);
+  };
+
   filterHomeRankings = async (req: Request, res: Response) => {
     const allNoProgress = await this.leaderBoardService.findAllNoProgress();
 
@@ -35,6 +47,7 @@ export default class LeaderBoardController {
 
     return res.status(200).json(buildTableSort);
   };
+  
 
   buildTable = async (filterTeam: ILeaderSuport[]): Promise<ILeaderBoard[]> => {
     const allTeams = await this.teamService.findAll() as ITeam[];
@@ -50,5 +63,3 @@ export default class LeaderBoardController {
     return builded;
   };
 }
-
-// 1º Total de Vitórias; 2º Saldo de gols; 3º Gols a favor; 4º Gols sofridos.

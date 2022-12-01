@@ -42,7 +42,7 @@ export default class LeaderBoardService {
         if (homeTeamGoals < awayTeamGoals) { findAway.vit += 1; }
         if (homeTeamGoals > awayTeamGoals) { findAway.derr += 1; }
         if (homeTeamGoals === awayTeamGoals) { findAway.emp += 1; }
-        findAway.gols += homeTeamGoals; findAway.golsSofr += awayTeamGoals;
+        findAway.gols += awayTeamGoals; findAway.golsSofr += homeTeamGoals;
       }
       const foundIxAway = arrayResult.findIndex(({ timeId }) => timeId === awayTeam);
       arrayResult[foundIxAway] = findAway as ILeaderSuport;
