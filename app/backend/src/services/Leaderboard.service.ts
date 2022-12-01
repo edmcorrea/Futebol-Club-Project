@@ -1,39 +1,57 @@
-import { ILeaderBoard, IMatch } from '../interfaces/interfaces';
+import { IMatch, assombro, ILeaderSuport } from '../interfaces/interfaces';
 import Matches from '../database/models/Matches';
-import Teams from '../database/models/Teams';
 
 export default class LeaderBoardService {
-  public arrayResult: ILeaderBoard[];
   // public newTeams: ILeaderBoard[];
-  constructor() {
-    this.arrayResult = [];
-    // this.newTeams = ;
-  }
+  // constructor() {
+  //   // this.newTeams = { timeId: 0, vit: 0, emp: 0, derr: 0, gols: 0, golsSofr: 0 };
+  // }
 
-  statusHomeRankings = async () => {
+  findAllNoProgress = async () => {
     const findAll = await Matches.findAll({ where: { inProgress: 'false' } }) as IMatch[];
-    findAll
-      .forEach(({ homeTeam, awayTeam, homeTeamGoals, awayTeamGoals }: IMatch) => {
-        let findHome = this.arrayResult.find(({ timeId }) => timeId === homeTeam) as ILeaderBoard;
-        if (!findHome) {
-          findHome = { timeId: homeTeam, vit: 0, emp: 0, derr: 0, gols: 0, golsSofr: 0 };
-          this.statusGame(findHome, homeTeamGoals, awayTeamGoals);
-          this.arrayResult.push(findHome);
-        } else {
-          this.statusGame(findHome, homeTeamGoals, awayTeamGoals);
-          const foundIxHome = this.arrayResult.findIndex(({ timeId }) => timeId === homeTeam);
-          this.arrayResult[foundIxHome] = findHome;
-        }
-      });
-    const statusResult = this.arrayResult;
-    return statusResult;
+    return findAll;
   };
 
-  statusGame = (team: ILeaderBoard, homeTeamGoals:number, awayTeamGoals: number ) => {
-    if (homeTeamGoals > awayTeamGoals) team.vit += 1;
-    else if (homeTeamGoals < awayTeamGoals) team.derr += 1;
-    else team.emp += 1;
-    return team;
+  statusHomeRanking = async (allMatch: IMatch[]) => {
+    const arrayResult: ILeaderSuport[] = [];
+
+    allMatch.forEach(({ homeTeam, homeTeamGoals, awayTeamGoals }: IMatch) => {
+      let findHome = arrayResult.find(({ timeId }) => timeId === homeTeam);
+      if (!findHome) {
+        findHome = { timeId: homeTeam, vit: 0, derr: 0, emp: 0, gols: 0, golsSofr: 0 };
+        arrayResult.push(findHome);
+      }
+      if (findHome) {
+        if (homeTeamGoals > awayTeamGoals) { findHome.vit += 1; }
+        if (homeTeamGoals < awayTeamGoals) { findHome.derr += 1; }
+        if (homeTeamGoals === awayTeamGoals) { findHome.emp += 1; }
+        findHome.gols += homeTeamGoals; findHome.golsSofr += awayTeamGoals;
+      }
+      const foundIxAway = arrayResult.findIndex(({ timeId }) => timeId === homeTeam);
+      arrayResult[foundIxAway] = findHome as ILeaderSuport;
+    });
+
+    return arrayResult;
+  };
+
+  statusAwayRanking = async (allMatch: IMatch[]) => {
+    const arrayResult: ILeaderSuport[] = [];
+
+    allMatch.forEach(({ awayTeam, homeTeamGoals, awayTeamGoals }: IMatch) => {
+      let findAway = arrayResult.find(({ timeId }) => timeId === awayTeam);
+      if (!findAway) {
+        findAway = { timeId: awayTeam, vit: 0, derr: 0, emp: 0, gols: 0, golsSofr: 0 };
+        arrayResult.push(findAway);
+      }
+      if (findAway) {
+        if (homeTeamGoals < awayTeamGoals) { findAway.vit += 1; }
+        if (homeTeamGoals > awayTeamGoals) { findAway.derr += 1; }
+        if (homeTeamGoals === awayTeamGoals) { findAway.emp += 1; }
+        findAway.gols += homeTeamGoals; findAway.golsSofr += awayTeamGoals;
+      }
+      const foundIxAway = arrayResult.findIndex(({ timeId }) => timeId === awayTeam);
+      arrayResult[foundIxAway] = findAway as ILeaderSuport;
+    });
+    return arrayResult;
   };
 }
-// { homeTeam, awayTeam, homeTeamGoals, awayTeamGoals }

@@ -23,8 +23,26 @@ interface IScoreMatch {
   awayTeamGoals: number;
 }
 
+interface ITeam {
+  id: number;
+  teamName: string;
+}
+
 interface ILeaderBoard {
-  timeId: number;
+  name: string;
+  totalPoints: number;
+  totalGames: number;
+  totalVictories: number;
+  totalDraws: number;
+  totalLosses: number;
+  goalsFavor: number;
+  goalsOwn: number;
+  goalsBalance: number;
+  efficiency: number;
+}
+
+interface ILeaderSuport {
+  timeId?: number;
   vit: number;
   emp: number;
   derr: number;
@@ -32,4 +50,17 @@ interface ILeaderBoard {
   golsSofr: number;
 }
 
-export { ILogin, IUser, IMatch, IScoreMatch, ILeaderBoard };
+interface assombro {
+  timeId: number;
+  vit: number;
+  derr: number;
+  emp: number;
+  gols: number;
+  golsSofr: number;
+  homeTeam?: number;
+  awayTeam?: number;
+  homeTeamGoals?: number;
+  awayTeamGoals?: number;
+}
+
+export { ILogin, IUser, IMatch, IScoreMatch, ILeaderBoard, ILeaderSuport, assombro, ITeam };
