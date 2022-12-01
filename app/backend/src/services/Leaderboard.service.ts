@@ -1,12 +1,7 @@
-import { IMatch, assombro, ILeaderSuport } from '../interfaces/interfaces';
+import { IMatch, ILeaderSuport } from '../interfaces/interfaces';
 import Matches from '../database/models/Matches';
 
 export default class LeaderBoardService {
-  // public newTeams: ILeaderBoard[];
-  // constructor() {
-  //   // this.newTeams = { timeId: 0, vit: 0, emp: 0, derr: 0, gols: 0, golsSofr: 0 };
-  // }
-
   findAllNoProgress = async () => {
     const findAll = await Matches.findAll({ where: { inProgress: 'false' } }) as IMatch[];
     return findAll;
