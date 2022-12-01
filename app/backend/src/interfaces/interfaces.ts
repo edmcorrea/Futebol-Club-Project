@@ -12,10 +12,17 @@ interface IUser {
 }
 
 interface IMatch {
-  homeTeam: number;
-  awayTeam: number;
-  homeTeamGoals: number;
-  awayTeamGoals: number;
+  homeTeam: number | any
+  awayTeam: number | any;
+  homeTeamGoals: number | any;
+  awayTeamGoals: number | any;
+}
+
+interface IMatchKey {
+  0: number;
+  1: number;
+  2: number;
+  3: number;
 }
 
 interface IScoreMatch {
@@ -63,4 +70,6 @@ interface assombro {
   awayTeamGoals?: number;
 }
 
-export { ILogin, IUser, IMatch, IScoreMatch, ILeaderBoard, ILeaderSuport, assombro, ITeam };
+export { ILogin, IUser, IMatch,
+  IScoreMatch, ILeaderBoard, ILeaderSuport,
+  assombro, ITeam, IMatchKey };

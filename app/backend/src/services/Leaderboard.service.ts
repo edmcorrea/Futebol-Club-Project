@@ -1,9 +1,10 @@
-import { IMatch, ILeaderSuport } from '../interfaces/interfaces';
+import { IMatch, ILeaderSuport, IMatchKey } from '../interfaces/interfaces';
 import Matches from '../database/models/Matches';
 
 export default class LeaderBoardService {
   findAllNoProgress = async () => {
-    const findAll = await Matches.findAll({ where: { inProgress: 'false' } }) as IMatch[];
+    const findAll = await Matches
+      .findAll({ where: { inProgress: 'false' }, raw: true }) as IMatch[];
     return findAll;
   };
 
@@ -31,7 +32,6 @@ export default class LeaderBoardService {
 
   statusAwayRanking = async (allMatch: IMatch[]) => {
     const arrayResult: ILeaderSuport[] = [];
-
     allMatch.forEach(({ awayTeam, homeTeamGoals, awayTeamGoals }: IMatch) => {
       let findAway = arrayResult.find(({ timeId }) => timeId === awayTeam);
       if (!findAway) {

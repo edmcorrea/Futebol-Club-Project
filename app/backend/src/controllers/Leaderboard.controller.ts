@@ -24,30 +24,23 @@ export default class LeaderBoardController {
     return res.status(200).json(buildTableSort);
   };
 
-  filterHomeRankings = async (req: Request, res: Response) => {
+  filterHomeAndAwayRankings = async (req: Request, res: Response) => {
+    const key = req.url.slice(1);
+    let filterTeam;
     const allNoProgress = await this.leaderBoardService.findAllNoProgress();
 
-    const filterHome = await this.leaderBoardService.statusHomeRanking(allNoProgress);
+    if (key === 'home') {
+      filterTeam = await this.leaderBoardService.statusHomeRanking(allNoProgress);
+    } else {
+      filterTeam = await this.leaderBoardService.statusAwayRanking(allNoProgress);
+    }
 
-    const buildTable = await this.buildTable(filterHome);
+    const buildTable = await this.buildTable(filterTeam);
 
     const buildTableSort = this.buildTeamSort.buildSort(buildTable);
 
     return res.status(200).json(buildTableSort);
   };
-
-  filterAwayRankings = async (req: Request, res: Response) => {
-    const allNoProgress = await this.leaderBoardService.findAllNoProgress();
-
-    const filterAway = await this.leaderBoardService.statusAwayRanking(allNoProgress);
-
-    const buildTable = await this.buildTable(filterAway);
-
-    const buildTableSort = this.buildTeamSort.buildSort(buildTable);
-
-    return res.status(200).json(buildTableSort);
-  };
-  
 
   buildTable = async (filterTeam: ILeaderSuport[]): Promise<ILeaderBoard[]> => {
     const allTeams = await this.teamService.findAll() as ITeam[];

@@ -6,7 +6,7 @@ const routers = Router();
 const leaderBoardController = new LeaderBoardController();
 
 routers.get('/', leaderBoardController.filterRankings);
-routers.get('/home', leaderBoardController.filterHomeRankings);
-routers.get('/away', leaderBoardController.filterAwayRankings);
+routers.get('/home', leaderBoardController.filterHomeAndAwayRankings);
+routers.get('/away', leaderBoardController.filterHomeAndAwayRankings);
 
 export default routers;
