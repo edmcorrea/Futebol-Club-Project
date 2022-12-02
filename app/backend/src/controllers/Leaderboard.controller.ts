@@ -13,11 +13,15 @@ export default class LeaderBoardController {
   ) {}
 
   filterRankings = async (req: Request, res: Response) => {
-    const allNo = await this.leaderBoardService.findAllNoProgress();
+    const allNoProgress = await this.leaderBoardService.findAllNoProgress();
 
-    const filterHome = await this.leaderBoardService.statusHomeRanking(allNo);
+    const filterHome = this.leaderBoardService.statusHomeRanking(allNoProgress);
+    const filterAway = this.leaderBoardService.statusAwayRanking(allNoProgress);
+    console.log(filterAway);
 
-    const buildTable = await this.buildTable(filterHome);
+    const filterAllTeams = this.leaderBoardService.statusAllRaking(filterHome, filterAway);
+
+    const buildTable = await this.buildTable(filterAllTeams);
 
     const buildTableSort = this.buildTeamSort.buildSort(buildTable);
 

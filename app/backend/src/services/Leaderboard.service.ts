@@ -8,7 +8,7 @@ export default class LeaderBoardService {
     return findAll;
   };
 
-  statusHomeRanking = async (allMatch: IMatch[]) => {
+  statusHomeRanking = (allMatch: IMatch[]) => {
     const arrayResult: ILeaderSuport[] = [];
 
     allMatch.forEach(({ homeTeam, homeTeamGoals, awayTeamGoals }: IMatch) => {
@@ -30,7 +30,7 @@ export default class LeaderBoardService {
     return arrayResult;
   };
 
-  statusAwayRanking = async (allMatch: IMatch[]) => {
+  statusAwayRanking = (allMatch: IMatch[]) => {
     const arrayResult: ILeaderSuport[] = [];
     allMatch.forEach(({ awayTeam, homeTeamGoals, awayTeamGoals }: IMatch) => {
       let findAway = arrayResult.find(({ timeId }) => timeId === awayTeam);
@@ -46,6 +46,24 @@ export default class LeaderBoardService {
       }
       const foundIxAway = arrayResult.findIndex(({ timeId }) => timeId === awayTeam);
       arrayResult[foundIxAway] = findAway as ILeaderSuport;
+    });
+    return arrayResult;
+  };
+
+  statusAllRaking = (home: ILeaderSuport[], away: ILeaderSuport[]) => {
+    const arrayResult: ILeaderSuport[] = [];
+    home.forEach((hme) => {
+      const teamResult = { timeId: hme.timeId, vit: 0, derr: 0, emp: 0, gols: 0, golsSofr: 0 };
+      away.forEach((awy) => {
+        if (hme.timeId === awy.timeId) {
+          teamResult.vit = hme.vit + awy.vit;
+          teamResult.derr = hme.derr + awy.derr;
+          teamResult.emp = hme.emp + awy.emp;
+          teamResult.gols = hme.gols + awy.gols;
+          teamResult.golsSofr = hme.golsSofr + awy.golsSofr;
+        }
+      });
+      arrayResult.push(teamResult);
     });
     return arrayResult;
   };
