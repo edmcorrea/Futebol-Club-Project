@@ -13,30 +13,19 @@ export default class LeaderBoardController {
   ) {}
 
   filterRankings = async (req: Request, res: Response) => {
+    const key = req.url.slice(1);
+    let filterTeam;
     const allNoProgress = await this.leaderBoardService.findAllNoProgress();
-
     const filterHome = this.leaderBoardService.statusHomeRanking(allNoProgress);
     const filterAway = this.leaderBoardService.statusAwayRanking(allNoProgress);
     console.log(filterAway);
 
-    const filterAllTeams = this.leaderBoardService.statusAllRaking(filterHome, filterAway);
-
-    const buildTable = await this.buildTable(filterAllTeams);
-
-    const buildTableSort = this.buildTeamSort.buildSort(buildTable);
-
-    return res.status(200).json(buildTableSort);
-  };
-
-  filterHomeAndAwayRankings = async (req: Request, res: Response) => {
-    const key = req.url.slice(1);
-    let filterTeam;
-    const allNoProgress = await this.leaderBoardService.findAllNoProgress();
-
     if (key === 'home') {
-      filterTeam = await this.leaderBoardService.statusHomeRanking(allNoProgress);
+      filterTeam = filterHome;
+    } else if (key === 'away') {
+      filterTeam = filterAway;
     } else {
-      filterTeam = await this.leaderBoardService.statusAwayRanking(allNoProgress);
+      filterTeam = this.leaderBoardService.statusAllRaking(filterHome, filterAway);
     }
 
     const buildTable = await this.buildTable(filterTeam);
