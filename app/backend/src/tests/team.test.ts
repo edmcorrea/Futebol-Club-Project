@@ -4,7 +4,6 @@ import * as chai from 'chai';
 import chaiHttp = require('chai-http');
 
 import App from '../app';
-import Example from '../database/models/ExampleModel';
 
 import { Response } from 'superagent';
 
@@ -14,11 +13,7 @@ const { app } = new App();
 
 const { expect } = chai;
 
-describe('Seu teste', () => {
-  /**
-   * Exemplo do uso de stubs com tipos
-   */
-
+describe('Testes de integracao referentes a rota Team', () => {
   // let chaiHttpResponse: Response;
 
   // before(async () => {

@@ -19,7 +19,7 @@ export default class LoginController {
     try {
       const { role } = req.body; // Informação armazenada no middleware 'UserMiddleware', linha 24;
       return res.status(200).json({ role });
-    } catch (error) {
+    } catch (_error) {
       return res.status(500).json('Erro interno');
     }
   };
