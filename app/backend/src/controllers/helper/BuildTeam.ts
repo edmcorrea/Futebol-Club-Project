@@ -1,4 +1,4 @@
-import { ILeaderSuport } from '../../interfaces/interfaces';
+import { ILeaderBoard, ILeaderSuport } from '../../interfaces/interfaces';
 
 export default class BuildTeam {
   public name: string;
@@ -26,4 +26,14 @@ export default class BuildTeam {
     this.goalsBalance = gols - golsSofr;
     this.efficiency = Number(((this.totalPoints / (this.totalGames * 3)) * 100).toFixed(2));
   }
+
+  static buildTeamSort = (buildTable: ILeaderBoard[]) => {
+    const buildTableSort = buildTable.sort((b: ILeaderBoard, a: ILeaderBoard): number =>
+      a.totalPoints - b.totalPoints
+      || a.totalVictories - b.totalVictories
+      || a.goalsBalance - b.goalsBalance
+      || a.goalsFavor - b.goalsFavor
+      || a.goalsOwn - b.goalsOwn);
+    return buildTableSort;
+  };
 }

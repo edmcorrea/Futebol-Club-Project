@@ -18,7 +18,6 @@ export default class LeaderBoardController {
     const allNoProgress = await this.leaderBoardService.findAllNoProgress();
     const filterHome = this.leaderBoardService.statusHomeRanking(allNoProgress);
     const filterAway = this.leaderBoardService.statusAwayRanking(allNoProgress);
-    console.log(filterAway);
 
     if (key === 'home') {
       filterTeam = filterHome;
@@ -30,7 +29,7 @@ export default class LeaderBoardController {
 
     const buildTable = await this.buildTable(filterTeam);
 
-    const buildTableSort = this.buildTeamSort.buildSort(buildTable);
+    const buildTableSort = BuildTeam.buildTeamSort(buildTable);
 
     return res.status(200).json(buildTableSort);
   };
