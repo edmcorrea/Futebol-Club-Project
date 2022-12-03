@@ -1,4 +1,5 @@
 import { NextFunction, Request, Response } from 'express';
+import HttpException from '../util/HttpException';
 import JWT from '../util/JWT';
 import { schemaLogin } from './schemas';
 
@@ -7,24 +8,22 @@ export default class UserMidlleware {
 
   public validateLogin = (req: Request, res: Response, next: NextFunction) => {
     const { error } = schemaLogin.validate(req.body);
-    if (error) {
-      return res.status(400).json({ message: 'All fields must be filled',
-      });
-    }
+
+    if (error) throw new HttpException(400, 'All fields must be filled');
+
     next();
   };
 
   public validateToken = (req: Request, res: Response, next: NextFunction) => {
-    const { authorization } = req.headers;
-
-    if (!authorization) return res.status(401).json({ message: 'Token must be a valid token' });
+    // if (!authorization) throw new HttpException(401, 'Token must be a valid token');
 
     try {
-      const decoded = this.jwt.verifyToken(authorization);
+      const { authorization } = req.headers;
+      const decoded = this.jwt.verifyToken(authorization as string);
       req.body.role = decoded.role;
       next();
     } catch (_error) {
-      return res.status(401).json({ message: 'Token must be a valid token' });
+      throw new HttpException(401, 'Token must be a valid token');
     }
   };
 }
