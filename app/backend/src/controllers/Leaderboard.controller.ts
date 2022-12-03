@@ -3,13 +3,11 @@ import TeamsService from '../services/Teams.service';
 import LeaderBoardService from '../services/Leaderboard.service';
 import BuildTeam from './helper/BuildTeam';
 import { ILeaderBoard, ILeaderSuport, ITeam } from '../interfaces/interfaces';
-import BuildTeamSort from './helper/BuildTeamSort';
 
 export default class LeaderBoardController {
   constructor(
     private leaderBoardService = new LeaderBoardService(),
     private teamService = new TeamsService(),
-    private buildTeamSort = new BuildTeamSort(),
   ) {}
 
   filterRankings = async (req: Request, res: Response) => {

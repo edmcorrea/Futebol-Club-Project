@@ -1,4 +1,4 @@
-import { IMatch, ILeaderSuport, IMatchKey } from '../interfaces/interfaces';
+import { IMatch, ILeaderSuport } from '../interfaces/interfaces';
 import Matches from '../database/models/Matches';
 
 export default class LeaderBoardService {

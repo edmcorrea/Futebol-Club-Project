@@ -6,6 +6,8 @@ import chaiHttp = require('chai-http');
 import App from '../app';
 
 import { Response } from 'superagent';
+import Teams from '../database/models/Teams';
+import { allTeamMock, teamMock } from './mocks/team.mock';
 
 chai.use(chaiHttp);
 
@@ -14,29 +16,48 @@ const { app } = new App();
 const { expect } = chai;
 
 describe('Testes de integracao referentes a rota Team', () => {
-  // let chaiHttpResponse: Response;
+  let chaiHttpResponse: Response;
 
-  // before(async () => {
-  //   sinon
-  //     .stub(Example, "findOne")
-  //     .resolves({
-  //       ...<Seu mock>
-  //     } as Example);
-  // });
+describe('a rota consegue buscar o elemento pelo :id inserido no end point da requisição', () => {
+  before(async () => {
+    sinon
+      .stub(Teams, "findOne")
+      .resolves({
+        ...teamMock
+      } as Teams);
+  });
 
-  // after(()=>{
-  //   (Example.findOne as sinon.SinonStub).restore();
-  // })
+  after(()=>{
+    (Teams.findOne as sinon.SinonStub).restore();
+  })
 
-  // it('...', async () => {
-  //   chaiHttpResponse = await chai
-  //      .request(app)
-  //      ...
+  it('Test final', async () => {
+    chaiHttpResponse = await chai
+       .request(app)
+       .get('/teams/:id')
+       
 
-  //   expect(...)
-  // });
+    expect(chaiHttpResponse).to.have.status(200);
+  });
+});
 
-  // it('Seu sub-teste', () => {
-  //   expect(false).to.be.eq(true);
-  // });
+describe('a rota consegue buscar o elemento /team inserido no end point da requisição', () => {
+  before(async () => {
+    sinon
+      .stub(Teams, "findAll")
+      .resolves(allTeamMock as Teams[]);
+  });
+
+  after(()=>{
+    (Teams.findAll as sinon.SinonStub).restore();
+  })
+
+  it('Test final', async () => {
+    chaiHttpResponse = await chai
+       .request(app)
+       .get('/teams')
+       
+    expect(chaiHttpResponse).to.have.status(200);
+  });
+})
 });
