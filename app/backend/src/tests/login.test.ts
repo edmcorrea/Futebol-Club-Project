@@ -5,8 +5,10 @@ import chaiHttp = require('chai-http');
 
 import App from '../app';
 import Users from '../database/models/Users';
+import * as jwt from 'jsonwebtoken';
 
 import { Response } from 'superagent';
+import { token } from './mocks/login.mocks';
 
 chai.use(chaiHttp);
 
@@ -30,11 +32,10 @@ describe('Testes relativos a Rota Login', () => {
   });
 
   after(()=>{
-    (Users.findOne as sinon.SinonStub).restore();
+    (sinon.restore);
   })
 
-describe('Rota Login > Verificacao da rota Login', () => {
-  it('Acesso a retorno status code 200', async () => {
+  it('statusCode 200 - Return token', async () => {
     chaiHttpResponse = await chai
     .request(app)
     .post('/login')
@@ -45,20 +46,61 @@ describe('Rota Login > Verificacao da rota Login', () => {
     expect(chaiHttpResponse).to.have.status(200);
     expect(chaiHttpResponse.body).to.have.property('token');
   });
-})
 
-describe('Rota Login > Get Role', () => {
-  it('Retorno status code 200', async () => {
+  it('Status 400 - Return message: All fields must be filled', async () => {
     chaiHttpResponse = await chai
     .request(app)
-    .post('/login/validate')
+    .post('/login')
     .send({
-      email: "admin@admin.com",
       password: "secret_admin"
     })
-    // expect(chaiHttpResponse).to.have.status(200);
-    // expect(chaiHttpResponse.body).to.have.property('role');
+    expect(chaiHttpResponse).to.have.status(400);
+    expect(chaiHttpResponse.body).to.be.deep.equal({message: 'All fields must be filled'});
   });
-})
+
+  // NÃO É POSSÍVEL EXECUTAR POIS O 'BEFOREEACH' ESTÁ CONDICIONADO A RESOLVER O PROCESSO
+
+  // it('statusCode 401 - Return message: Incorrect email or password', async () => {
+  //   chaiHttpResponse = await chai
+  //   .request(app)
+  //   .post('/login')
+  //   .send({
+  //     email: "a@a.com",
+  //     password: "secret_admin"
+  //   })
+  //   expect(chaiHttpResponse).to.have.status(401);
+  //   expect(chaiHttpResponse.body).to.be.deep.equal({message: 'Incorrect email or password'});
+  // });
+  
+  it('Status 200 - Validacao do usuario ROLE', async () => {
+
+    sinon.stub(jwt, 'verify')
+      .resolves({email:'admin@admin.com', role: 'admin'});
+
+    chaiHttpResponse = await chai
+    .request(app)
+    .get('/login/validate')
+    .set('Authorization', token)
+    .send({role: "admin"});
+
+    expect(chaiHttpResponse).to.have.status(200);
+    // expect(chaiHttpResponse.body).to.have.property('role');
+    // não consigo verificar se o retorno do meu processo está correto
+  });
+  
+  // it('Status 401 - Return message: Token must be a valid token', async () => {
+  
+  //   sinon.stub(jwt, 'verify')
+  //     .resolves({email:'error@error.com', role: 'admin'});
+  
+  //   chaiHttpResponse = await chai
+  //     .request(app)
+  //     .get('/login/validate')
+  //     .set('Authorization', token)
+  //     .send({role: 'admin'});
+  
+  //   expect(chaiHttpResponse).to.have.status(401);
+  //   expect(chaiHttpResponse.body).to.be.deep.equal({message: 'Token must be a valid token'});
+  // });
 
 });
