@@ -57,7 +57,7 @@ interface ILeaderSuport {
   golsSofr: number;
 }
 
-interface assombro {
+interface IMatchesComplete {
   timeId: number;
   vit: number;
   derr: number;
@@ -72,4 +72,4 @@ interface assombro {
 
 export { ILogin, IUser, IMatch,
   IScoreMatch, ILeaderBoard, ILeaderSuport,
-  assombro, ITeam, IMatchKey };
+  ITeam, IMatchKey, IMatchesComplete };
