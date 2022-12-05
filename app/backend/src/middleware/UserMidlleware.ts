@@ -23,7 +23,8 @@ export default class UserMidlleware {
       req.body.role = decoded.role;
       next();
     } catch (_error) {
-      throw new HttpException(401, 'Token must be a valid token');
+      return res.status(401).json({ message: 'Token must be a valid token' });
+      // throw new HttpException(401, 'Token must be a valid token');
     }
   };
 }

@@ -14,6 +14,7 @@ export default class LeaderBoardController {
     const key = req.url.slice(1);
     let filterTeam;
     const allNoProgress = await this.leaderBoardService.findAllNoProgress();
+
     const filterHome = this.leaderBoardService.statusHomeRanking(allNoProgress);
     const filterAway = this.leaderBoardService.statusAwayRanking(allNoProgress);
 

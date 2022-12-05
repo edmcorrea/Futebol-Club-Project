@@ -2,7 +2,7 @@ import Teams from '../database/models/Teams';
 
 export default class TeamsService {
   findAll = async () => {
-    const teamsAll = await Teams.findAll();
+    const teamsAll = await Teams.findAll({ raw: true });
     return teamsAll;
   };
 

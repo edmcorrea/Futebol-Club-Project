@@ -58,6 +58,9 @@ describe('Testes relativos a Rota Login', () => {
     expect(chaiHttpResponse.body).to.be.deep.equal({message: 'All fields must be filled'});
   });
 
+
+
+
   // NÃO É POSSÍVEL EXECUTAR POIS O 'BEFOREEACH' ESTÁ CONDICIONADO A RESOLVER O PROCESSO
 
   // it('statusCode 401 - Return message: Incorrect email or password', async () => {
@@ -71,6 +74,9 @@ describe('Testes relativos a Rota Login', () => {
   //   expect(chaiHttpResponse).to.have.status(401);
   //   expect(chaiHttpResponse.body).to.be.deep.equal({message: 'Incorrect email or password'});
   // });
+
+
+
   
   it('Status 200 - Validacao do usuario ROLE', async () => {
 
@@ -87,6 +93,10 @@ describe('Testes relativos a Rota Login', () => {
     // expect(chaiHttpResponse.body).to.have.property('role');
     // não consigo verificar se o retorno do meu processo está correto
   });
+
+
+
+
   
   // it('Status 401 - Return message: Token must be a valid token', async () => {
   

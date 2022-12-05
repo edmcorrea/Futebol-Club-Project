@@ -10,9 +10,11 @@ export default class LoginController {
   verifyLogin = async (req: Request, res: Response) => {
     const { email, password } = req.body;
 
-    const token = await this.loginService.verifyLogin(email, password);
+    const { type, message } = await this.loginService.verifyLogin(email, password);
 
-    return res.status(200).json({ token });
+    if (type) return res.status(type).json({ message });
+
+    return res.status(200).json({ token: message });
   };
 
   getRole = (req: Request, res: Response) => {
