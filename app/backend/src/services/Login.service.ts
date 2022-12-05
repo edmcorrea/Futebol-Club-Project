@@ -1,7 +1,7 @@
 import * as bcrypt from 'bcryptjs';
 import JWT from '../util/JWT';
 import Users from '../database/models/Users';
-// import HttpException from '../util/HttpException';
+// import HttpException from '../util/HttpException'; // COMMIT EXTRA
 
 export default class LoginService {
   constructor(private jwt = new JWT()) {}
