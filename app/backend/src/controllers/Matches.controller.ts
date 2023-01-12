@@ -25,8 +25,7 @@ export default class MatchesController {
   insertMatch = async (req: Request, res: Response) => {
     const { homeTeam, awayTeam } = req.body;
 
-    const { type, message } = await this.validates.validateTeam(homeTeam, awayTeam);
-    if (type) return res.status(type).json({ message });
+    await this.validates.validateTeam(homeTeam, awayTeam);
 
     const insert = await this.matchesService.insertMatch(req.body);
 

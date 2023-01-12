@@ -1,5 +1,5 @@
 import TeamsService from '../Teams.service';
-// import HttpException from '../../util/HttpException';
+import HttpException from '../../util/HttpException';
 
 export default class Validates {
   constructor(
@@ -10,9 +10,6 @@ export default class Validates {
     const teamHome = await this.teamService.findById(homeTeam);
     const teamAway = await this.teamService.findById(awayTeam);
 
-    if (!teamHome || !teamAway) return { type: 404, message: 'There is no team with such id!' };
-
-    return { type: null, message: null };
-    // throw new HttpException(404, 'There is no team with such id!');
+    if (!teamHome || !teamAway) throw new HttpException(404, 'There is no team with such id!');
   };
 }
