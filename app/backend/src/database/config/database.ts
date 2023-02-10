@@ -6,7 +6,7 @@ const config: Options = {
   password: process.env.DBPASS || '123456',
   database: 'TRYBE_FUTEBOL_CLUBE',
   host: process.env.DBHOST || 'localhost',
-  port: Number(process.env.DBPORT) || 3002,
+  port: Number(process.env.DBPORT) || 3006,
   dialect: 'mysql',
   dialectOptions: {
     timezone: 'Z',
